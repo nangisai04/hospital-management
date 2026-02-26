@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login - Hospital Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0D1B2A 0%, #1A2332 50%, #16213E 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-box {
+            background: linear-gradient(135deg, #16213E 0%, #1A2332 100%);
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 183, 3, 0.15);
+            overflow: hidden;
+            border: 2px solid rgba(255, 183, 3, 0.3);
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, #FFB703 0%, #FFC300 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: #0D1B2A;
+        }
+
+        .login-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .login-header p {
+            font-size: 14px;
+            opacity: 0.95;
+            font-weight: 600;
+        }
+
+        .security-badge {
+            display: inline-block;
+            background: rgba(255, 183, 3, 0.9);
+            color: #0D1B2A;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(255, 183, 3, 0.4);
+        }
+
+        .login-body {
+            padding: 40px 30px;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #E63946 0%, #F72585 100%);
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(230, 57, 70, 0.3);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #FFB703;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255, 183, 3, 0.3);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+            background: rgba(0, 20, 40, 0.4);
+            color: #E9E9E9;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="password"]::placeholder {
+            color: rgba(255, 183, 3, 0.4);
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #FFB703;
+            box-shadow: 0 0 15px rgba(255, 183, 3, 0.3);
+            background: rgba(0, 20, 40, 0.6);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #FFB703 0%, #FFC300 100%);
+            color: #0D1B2A;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            box-shadow: 0 5px 20px rgba(255, 183, 3, 0.4);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 183, 3, 0.6);
+        }
+
+        .login-footer {
+            padding: 20px 30px;
+            background: rgba(255, 183, 3, 0.08);
+            text-align: center;
+            border-top: 1px solid rgba(255, 183, 3, 0.1);
+        }
+
+        .login-footer p {
+            color: #90E0EF;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .login-footer a {
+            color: #FFB703;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .login-footer a:hover {
+            color: #FFC300;
+            text-shadow: 0 0 10px rgba(255, 183, 3, 0.4);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #FFB703;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            color: #FFC300;
+            text-shadow: 0 0 10px rgba(255, 183, 3, 0.4);
+        }
+
+        .features {
+            margin-top: 30px;
+            background: linear-gradient(135deg, #16213E 0%, #1A2332 100%);
+            padding: 20px;
+            border-radius: 12px;
+            color: #90E0EF;
+            border-left: 4px solid #FFB703;
+            border: 1px solid rgba(255, 183, 3, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .features h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #FFB703;
+            font-weight: 600;
+        }
+
+        .features ul {
+            list-style: none;
+            font-size: 13px;
+            opacity: 0.95;
+        }
+
+        .features li {
+            padding: 5px 0;
+        }
+
+        .features li:before {
+            content: "✓ ";
+            margin-right: 8px;
+            color: #FFB703;
+            font-weight: 700;
+        }
+
+        .warning-box {
+            background: rgba(255, 183, 3, 0.15);
+            border: 1px solid rgba(255, 183, 3, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            color: #E9E9E9;
+            font-size: 12px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+    </style>
+
+        .warning-box strong {
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="login-box">
+        <!-- Header -->
+        <div class="login-header">
+            <h1>🔐 Admin Login</h1>
+            <p>Hospital Chairman/Administrator Access</p>
+            <div class="security-badge">🔒 Secure Access</div>
+        </div>
+
+        <!-- Login Form -->
+        <div class="login-body">
+            {% if error_message %}
+                <div class="error-message">
+                    ⚠️ {{ error_message }}
+                </div>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="username">Admin Username</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Enter admin username" 
+                        required
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Admin Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter admin password" 
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="login-btn">Login as Admin</button>
+            </form>
+
+            <div class="warning-box">
+                <strong>⚠️ Restricted Access:</strong><br>
+                This area is for authorized hospital administration only.
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="login-footer">
+            <p>Manage Doctors</p>
+            <a href="{% url 'doctor_register' %}" style="background: #FFB703; padding: 8px 16px; border-radius: 6px; color: #0D1B2A; font-weight: 700; display: inline-block; margin-bottom: 15px;">➕ Create Doctor Account</a>
+            <p style="margin-top: 15px;">Not an admin?</p>
+            <a href="{% url 'home' %}">Go to Home</a>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="features">
+        <h3>👤 Admin Features:</h3>
+        <ul>
+            <li>View all hospital appointments</li>
+            <li>Check available doctors</li>
+            <li>Monitor doctor schedules</li>
+            <li>View hospital statistics</li>
+            <li>Track billing information</li>
+            <li>See patient information</li>
+        </ul>
+    </div>
+
+    <a href="{% url 'home' %}" class="back-link">← Back to Home</a>
+</div>
+
+</body>
+</html>

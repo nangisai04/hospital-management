@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital Management System - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0D1B2A 0%, #1A2332 50%, #16213E 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            color: #00D4FF;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 20px rgba(0, 212, 255, 0.3);
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #90E0EF;
+            opacity: 0.95;
+        }
+
+        .login-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .login-card {
+            background: linear-gradient(135deg, #16213E 0%, #1A6B80 100%);
+            padding: 50px 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.15), 0 0 30px rgba(0, 168, 204, 0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            cursor: pointer;
+            border: 2px solid #00A8CC;
+        }
+
+        .login-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 212, 255, 0.25), 0 0 40px rgba(0, 168, 204, 0.2);
+            border-color: #00D4FF;
+        }
+
+        .login-card.patient {
+            border-color: #00A8CC;
+        }
+
+        .login-card.patient:hover {
+            border-color: #00D4FF;
+        }
+
+        .login-card.doctor {
+            background: linear-gradient(135deg, #1A3A3A 0%, #0F5F5F 100%);
+            border-color: #00C9FF;
+        }
+
+        .login-card.doctor:hover {
+            border-color: #00E5FF;
+        }
+
+        .login-card-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
+        }
+
+        .login-card h2 {
+            color: #00D4FF;
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .login-card p {
+            color: #E9E9E9;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .login-btn {
+            display: inline-block;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #00A8CC 0%, #00D4FF 100%);
+            color: #0D1B2A;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 168, 204, 0.4);
+        }
+
+        .login-card.doctor .login-btn {
+            background: linear-gradient(135deg, #00C9FF 0%, #00E5FF 100%);
+        }
+
+        .login-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.6);
+        }
+
+        .features {
+            background: linear-gradient(135deg, #16213E 0%, #1A3A3A 100%);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            margin-top: 40px;
+            border: 1px solid rgba(0, 168, 204, 0.2);
+        }
+
+        .features h3 {
+            text-align: center;
+            color: #00D4FF;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-item {
+            padding: 20px;
+            background: linear-gradient(135deg, #1A2332 0%, #0F3460 100%);
+            border-radius: 10px;
+            border-left: 4px solid #00A8CC;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(0, 168, 204, 0.15);
+        }
+
+        .feature-item:hover {
+            border-left-color: #00D4FF;
+            box-shadow: 0 5px 20px rgba(0, 168, 204, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .feature-item.doctor {
+            border-left-color: #00C9FF;
+        }
+
+        .feature-item strong {
+            display: block;
+            color: #00D4FF;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .feature-item p {
+            color: #90E0EF;
+            font-size: 13px;
+        }
+
+        .footer {
+            text-align: center;
+            color: #90E0EF;
+            margin-top: 40px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 1024px) {
+            .login-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 36px;
+            }
+
+            .header p {
+                font-size: 16px;
+            }
+
+            .login-options {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .login-card {
+                padding: 40px 30px;
+            }
+
+            .login-card-icon {
+                font-size: 50px;
+            }
+
+            .login-card h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1>🏥 Hospital Management</h1>
+        <p>Welcome to Our Hospital Management System</p>
+    </div>
+
+    <!-- Login Options -->
+    <div class="login-options">
+        <!-- Patient Login Card -->
+        <div class="login-card patient">
+            <div class="login-card-icon">👥</div>
+            <h2>Patient Login</h2>
+            <p>Access your medical records, book appointments with doctors, and manage your health information.</p>
+            <a href="{% url 'patient_login' %}" class="login-btn">Login as Patient</a>
+            <p style="margin-top: 15px; font-size: 14px; color: #999;">
+                Don't have an account?<br>
+                <a href="{% url 'patient_register' %}" style="color: #667eea; text-decoration: none; font-weight: bold;">Create Account</a>
+            </p>
+        </div>
+
+        <!-- Doctor Login Card -->
+        <div class="login-card doctor">
+            <div class="login-card-icon">👨‍⚕️</div>
+            <h2>Doctor Login</h2>
+            <p>View your schedule, manage appointments, and access patient information securely.</p>
+            <a href="{% url 'doctor_login' %}" class="login-btn">Login as Doctor</a>
+            <p style="margin-top: 15px; font-size: 14px; color: #999;">
+                Don't have an account?<br>
+                <a href="{% url 'doctor_register' %}" style="color: #764ba2; text-decoration: none; font-weight: bold;">Create Account</a>
+            </p>
+        </div>
+
+        <!-- Admin Login Card -->
+        <div class="login-card admin" style="border-top: 4px solid #1a1a2e;">
+            <div class="login-card-icon">🔐</div>
+            <h2>Admin Login</h2>
+            <p>Hospital chairman and administration access. View all appointments, doctor availability, and billing information.</p>
+            <a href="{% url 'admin_login' %}" class="login-btn" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">Login as Admin</a>
+            <p style="margin-top: 15px; font-size: 12px; color: #c33;">
+                🔒 Authorized Access Only
+            </p>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features">
+        <h3>✨ Features</h3>
+        <div class="features-grid">
+            <div class="feature-item">
+                <strong>Patients</strong>
+                <p>Book appointments seamlessly</p>
+            </div>
+            <div class="feature-item">
+                <strong>Patients</strong>
+                <p>View medical history</p>
+            </div>
+            <div class="feature-item">
+                <strong>Patients</strong>
+                <p>Manage billing</p>
+            </div>
+            <div class="feature-item doctor">
+                <strong>Doctors</strong>
+                <p>Schedule management</p>
+            </div>
+            <div class="feature-item doctor">
+                <strong>Doctors</strong>
+                <p>Patient information</p>
+            </div>
+            <div class="feature-item doctor">
+                <strong>Doctors</strong>
+                <p>Appointment tracking</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2026 Hospital Management System. All rights reserved.</p>
+    </div>
+</div>
+
+</body>
+</html>

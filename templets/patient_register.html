@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Patient Account - Hospital Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0D1B2A 0%, #1A2332 50%, #16213E 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .register-box {
+            background: linear-gradient(135deg, #16213E 0%, #1A3A3A 100%);
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 168, 204, 0.15);
+            overflow: hidden;
+            border: 1px solid rgba(0, 168, 204, 0.2);
+        }
+
+        .register-header {
+            background: linear-gradient(135deg, #00A8CC 0%, #00D4FF 100%);
+            padding: 35px 30px;
+            text-align: center;
+            color: #0D1B2A;
+        }
+
+        .register-header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .register-header p {
+            font-size: 14px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .register-body {
+            padding: 35px 30px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #06A77D 0%, #05D564 100%);
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(6, 168, 125, 0.3);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(6, 168, 125, 0.2);
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #E63946 0%, #F72585 100%);
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(230, 57, 70, 0.3);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #00D4FF;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid rgba(0, 168, 204, 0.3);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 13px;
+            background: rgba(0, 20, 40, 0.4);
+            color: #E9E9E9;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="email"]::placeholder,
+        input[type="password"]::placeholder,
+        select {
+            color: rgba(144, 224, 239, 0.5);
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="date"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #00D4FF;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            background: rgba(0, 20, 40, 0.6);
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #00A8CC 0%, #00D4FF 100%);
+            color: #0D1B2A;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 8px;
+            box-shadow: 0 5px 20px rgba(0, 168, 204, 0.4);
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.6);
+        }
+
+        .register-footer {
+            padding: 18px 30px;
+            background: rgba(0, 168, 204, 0.05);
+            text-align: center;
+            border-top: 1px solid rgba(0, 168, 204, 0.1);
+        }
+
+        .register-footer p {
+            color: #90E0EF;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .register-footer a {
+            color: #00D4FF;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .register-footer a:hover {
+            color: #00E5FF;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #00D4FF;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            color: #00E5FF;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+        }
+
+        .password-hint {
+            font-size: 12px;
+            color: #90E0EF;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 480px) {
+            .register-body {
+                padding: 25px 20px;
+            }
+
+            .register-header {
+                padding: 25px 20px;
+            }
+
+            .register-footer {
+                padding: 15px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="register-box">
+        <!-- Header -->
+        <div class="register-header">
+            <h1>👥 Create Patient Account</h1>
+            <p>Join our hospital management system</p>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="register-body">
+            {% if success_message %}
+                <div class="success-message">
+                    ✓ {{ success_message }}<br><br>
+                    <a href="{% url 'patient_login' %}" style="color: #155724; font-weight: bold;">Go to Patient Login →</a>
+                </div>
+            {% endif %}
+
+            {% if error_message %}
+                <div class="error-message">
+                    ⚠️ {{ error_message }}
+                </div>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first_name">First Name *</label>
+                        <input 
+                            type="text" 
+                            id="first_name" 
+                            name="first_name" 
+                            placeholder="John"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Last Name *</label>
+                        <input 
+                            type="text" 
+                            id="last_name" 
+                            name="last_name" 
+                            placeholder="Doe"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="your.email@example.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input 
+                        type="text" 
+                        id="phone" 
+                        name="phone" 
+                        placeholder="+1 (555) 123-4567"
+                        required
+                    >
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date_of_birth">Date of Birth *</label>
+                        <input 
+                            type="date" 
+                            id="date_of_birth" 
+                            name="date_of_birth"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender *</label>
+                        <select id="gender" name="gender" required>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                            <option value="O">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username *</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Choose a unique username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="At least 6 characters"
+                        required
+                    >
+                    <div class="password-hint">Must be at least 6 characters</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password *</label>
+                    <input 
+                        type="password" 
+                        id="confirm_password" 
+                        name="confirm_password" 
+                        placeholder="Confirm your password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="register-btn">Create Account</button>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="register-footer">
+            <p>Already have an account?</p>
+            <a href="{% url 'patient_login' %}">Login here</a>
+        </div>
+    </div>
+
+    <a href="{% url 'home' %}" class="back-link">← Back to Home</a>
+</div>
+
+</body>
+</html>

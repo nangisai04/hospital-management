@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-info p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .user-info .username {
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .btn-logout {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+
+        .btn-logout:hover {
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .stat-card .number {
+            color: #667eea;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .stat-card.doctors {
+            border-left-color: #667eea;
+        }
+
+        .stat-card.patients {
+            border-left-color: #764ba2;
+        }
+
+        .stat-card.appointments {
+            border-left-color: #f093fb;
+        }
+
+        .stat-card.billing {
+            border-left-color: #4facfe;
+        }
+
+        .doctors-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .doctors-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .doctors-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .doctors-table thead {
+            background: #f5f5f5;
+        }
+
+        .doctors-table th {
+            padding: 12px;
+            text-align: left;
+            color: #333;
+            font-weight: bold;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .doctors-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            color: #666;
+        }
+
+        .doctors-table tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .doctor-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-size: 16px;
+        }
+
+        .welcome-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .welcome-badge.is-doctor {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.scheduled {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-badge.cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-badge.paid {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.overdue {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .header-right {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .doctors-table {
+                font-size: 14px;
+            }
+
+            .doctors-table th,
+            .doctors-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <div>
+            <h1>🏥 Hospital Management Dashboard</h1>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <p class="username">{{ user.first_name|default:user.username }}</p>
+                <p>{{ user.email }}</p>
+                {% if is_doctor %}
+                    <span class="welcome-badge is-doctor">Doctor</span>
+                {% else %}
+                    <span class="welcome-badge">Administrator</span>
+                {% endif %}
+            </div>
+            <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- Statistics Grid -->
+    <div class="stats-grid">
+        <div class="stat-card doctors">
+            <h3>👨‍⚕️ Total Doctors</h3>
+            <div class="number">{{ total_doctors }}</div>
+        </div>
+        <div class="stat-card patients">
+            <h3>👥 Total Patients</h3>
+            <div class="number">{{ total_patients }}</div>
+        </div>
+        <div class="stat-card appointments">
+            <h3>📅 Appointments</h3>
+            <div class="number">{{ total_appointments }}</div>
+            <p style="font-size: 12px; color: #999; margin-top: 8px;">
+                Scheduled: {{ scheduled_appointments }} | Completed: {{ completed_appointments }}
+            </p>
+        </div>
+        <div class="stat-card billing">
+            <h3>💳 Total Billing</h3>
+            <div class="number" style="font-size: 24px;">{{ total_billing }}</div>
+            <p style="font-size: 12px; color: #999; margin-top: 8px;">
+                Pending: {{ pending_billing }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Doctors List Section -->
+    <div class="doctors-section">
+        <h2>Registered Doctors</h2>
+        
+        {% if doctors %}
+            <table class="doctors-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Specialization</th>
+                        <th>Experience</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doctor in doctors %}
+                        <tr>
+                            <td>
+                                <strong>{{ doctor.user.first_name|default:doctor.user.username }}</strong>
+                            </td>
+                            <td>
+                                <span class="doctor-badge">{{ doctor.specialization }}</span>
+                            </td>
+                            <td>{{ doctor.experience }} years</td>
+                            <td>{{ doctor.phone }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="no-data">
+                <p>No doctors registered yet.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Recent Patients Section -->
+    <div class="doctors-section" style="margin-top: 30px;">
+        <h2>Recent Patients</h2>
+        
+        {% if recent_patients %}
+            <table class="doctors-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Gender</th>
+                        <th>City</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in recent_patients %}
+                        <tr>
+                            <td>
+                                <strong>{{ patient.first_name }} {{ patient.last_name }}</strong>
+                            </td>
+                            <td>{{ patient.email }}</td>
+                            <td>{{ patient.phone }}</td>
+                            <td>
+                                {% if patient.gender == 'M' %}
+                                    Male
+                                {% elif patient.gender == 'F' %}
+                                    Female
+                                {% else %}
+                                    Other
+                                {% endif %}
+                            </td>
+                            <td>{{ patient.city }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="no-data">
+                <p>No patients registered yet.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Recent Appointments Section -->
+    <div class="doctors-section" style="margin-top: 30px;">
+        <h2>Recent Appointments</h2>
+        
+        {% if recent_appointments %}
+            <table class="doctors-table">
+                <thead>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Doctor</th>
+                        <th>Date & Time</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in recent_appointments %}
+                        <tr>
+                            <td>
+                                <strong>{{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</strong>
+                            </td>
+                            <td>{{ appointment.doctor.user.first_name }} {{ appointment.doctor.user.last_name }}</td>
+                            <td>{{ appointment.appointment_date|date:"M d, Y - g:i A" }}</td>
+                            <td>{{ appointment.reason|truncatewords:5 }}</td>
+                            <td>
+                                <span class="status-badge {% if appointment.status == 'completed' %}completed{% elif appointment.status == 'scheduled' %}scheduled{% else %}cancelled{% endif %}">
+                                    {{ appointment.status|upper }}
+                                </span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="no-data">
+                <p>No appointments scheduled yet.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>

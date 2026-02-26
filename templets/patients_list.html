@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Patients List - Admin</title>
+    <style>
+        :root{
+            --bg:#0f1724;
+            --card:#0b1220;
+            --accent1:#ff9f43;
+            --accent2:#7effc7;
+            --accent3:#7aa2ff;
+            --muted:#9aa4b2;
+        }
+        body{font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(135deg,#071428 0%, #081629 60%);color:#e6eef6;margin:0;padding:28px;}
+        .container{max-width:1200px;margin:0 auto}
+        .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+        .title{display:flex;flex-direction:column}
+        .title h1{margin:0;font-size:22px;letter-spacing:0.2px;color:var(--accent1)}
+        .title p{margin:4px 0 0;color:var(--muted);font-size:13px}
+        .back{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:8px;color:var(--accent2);text-decoration:none}
+        .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+        table{width:100%;border-collapse:collapse;margin-top:14px}
+        thead th{background:linear-gradient(90deg,var(--accent1),var(--accent3));color:#02122a;padding:12px 14px;text-align:left;font-weight:700;border-radius:6px}
+        tbody tr{background:linear-gradient(90deg,rgba(255,255,255,0.01),transparent);border-bottom:1px solid rgba(255,255,255,0.03)}
+        tbody tr:nth-child(odd){background:linear-gradient(90deg,rgba(255,159,67,0.03),transparent)}
+        td{padding:12px 14px;color:#dfe9f2}
+        .name{font-weight:700;color:#fff}
+        .muted{color:var(--muted);font-size:13px}
+        .pill{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:700;font-size:12px;color:#071428}
+        .city{background:linear-gradient(90deg,var(--accent2),#b9ffdf);}
+        .reg{background:linear-gradient(90deg,var(--accent3),#9ff1ff);}
+        @media(max-width:820px){.topbar{flex-direction:column;align-items:flex-start}.title h1{font-size:20px}}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="topbar">
+        <div class="title">
+            <h1>All Patients</h1>
+            <p class="muted">Complete patient list — opened from Admin Dashboard</p>
+        </div>
+        <div>
+            <a href="{% url 'admin_dashboard' %}" class="back">&larr; Back to Dashboard</a>
+        </div>
+    </div>
+
+    <div class="card">
+        {% if patients %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>City</th>
+                        <th>Registered</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients %}
+                    <tr>
+                        <td>
+                            <div class="name">{{ patient.first_name }} {{ patient.last_name }}</div>
+                        </td>
+                        <td class="muted">{{ patient.phone }}</td>
+                        <td><div class="pill reg">{{ patient.email }}</div></td>
+                        <td><div class="pill city">{{ patient.city }}</div></td>
+                        <td class="muted">{{ patient.created_at|date:"M d, Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="muted">No patients registered.</p>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>
