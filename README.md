@@ -188,6 +188,49 @@ hospital_management/
 - **Libraries**: Django REST Framework, Faker (sample data)
 - **Python**: 3.13
 
+## Deploying to Railway 🚀
+
+This project is configured to run on Railway with minimal changes. Follow these steps:
+
+1. **Prepare your repository**
+   - Commit all changes, including `settings.py` updates (WhiteNoise middleware, static storage).
+   - Ensure `Procfile` contains:
+     ```
+     web: gunicorn hospital.wsgi
+     release: python manage.py migrate && python manage.py collectstatic --noinput
+     ```
+   - Use the **root** `requirements.txt` (now a trimmed production file) for deployment. The original, full dependency list remains in `hospital_management/requirements.txt` for local development.
+   - Set `runtime.txt` to a supported Python version (e.g. `python-3.11.13`).
+
+2. **Create a Railway project**
+   - Sign in to https://railway.app/ and click **New Project** → **Deploy from GitHub**.
+   - Connect your GitHub account and select the repository containing this code.
+   - Railway will detect Python and the `Procfile` automatically.
+
+3. **Configure environment variables**
+   - In the Railway project settings add:
+     - `SECRET_KEY` – a strong secret for Django.
+     - `DEBUG` – set to `False` for production.
+     - `ALLOWED_HOSTS` – e.g. `*` or your Railway domain (e.g. `your-app.up.railway.app`).
+     - `DATABASE_URL` – Railway will usually set this automatically when you add a PostgreSQL plugin.
+
+4. **Add a database**
+   - From the Railway dashboard add a plugin (PostgreSQL recommended).
+   - The `DATABASE_URL` environment variable will be injected automatically.
+   - Django's `dj_database_url` configuration handles the connection.
+
+5. **Trigger deployment**
+   - Deploy the project. Railway will run the buildpack, install dependencies, and execute the `release` command which runs migrations and collects static files.
+   - Once build finishes, Railway will start the web process using Gunicorn via your `Procfile`.
+
+6. **Verify the live app**
+   - Open the Railway-generated URL (e.g. `https://<project>.up.railway.app`) in a browser.
+   - You should see the application running with static assets served and the database migrated.
+
+> 🔧 You can run `python manage.py collectstatic` locally before pushing if you want to preview static behavior.
+
+By following these steps you'll have a live Django application on Railway with automatic migrations and static file handling. Feel free to adjust settings or add plugins (e.g. Redis, mail) as needed.
+
 ## Support
 
 For issues or questions, please check the Django documentation:

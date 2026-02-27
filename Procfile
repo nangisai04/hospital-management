@@ -1,2 +1,3 @@
 web: gunicorn hospital.wsgi
-release: python manage.py migrate
+# run migrations and collect static assets on each release
+release: python manage.py migrate && python manage.py collectstatic --noinput
