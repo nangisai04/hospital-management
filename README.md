@@ -200,7 +200,12 @@ This project is configured to run on Railway with minimal changes. Follow these 
      release: python manage.py migrate && python manage.py collectstatic --noinput
      ```
    - Use the **root** `requirements.txt` (now a trimmed production file) for deployment. The original, full dependency list remains in `hospital_management/requirements.txt` for local development.
-   - Set `runtime.txt` to a supported Python version (e.g. `python-3.11.13`).
+   - Create a `runtime.txt` at the **repository root** with a supported Python version (`python-3.11.13`). Render and other platforms read the root file.
+   - **Render build command** must be a single line; do **not** include a trailing backslash or newline escape. Example:
+     ```bash
+     pip install -r requirements.txt && python manage.py collectstatic --noinput
+     ```
+     (The backslash inserted in the earlier log caused pip to receive an empty requirement and fail.)
 
 2. **Create a Railway project**
    - Sign in to https://railway.app/ and click **New Project** → **Deploy from GitHub**.
